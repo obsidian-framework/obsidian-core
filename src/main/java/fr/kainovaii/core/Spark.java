@@ -56,7 +56,7 @@ public class Spark
         final String MAGENTA = "\u001B[35m";
 
         System.out.println(CYAN + "+--------------------------------------+" + RESET);
-        System.out.println(CYAN + "|          Spark 1.0            |" + RESET);
+        System.out.println(CYAN + "|          Spark 1.0                    |" + RESET);
         System.out.println(CYAN + "+--------------------------------------+" + RESET);
         System.out.println(GREEN + "| Developpeur       : KainoVaii        |" + RESET);
         System.out.println(GREEN + "| Version           : 1.0              |" + RESET);
@@ -67,8 +67,13 @@ public class Spark
         System.out.println();
     }
 
-    public void initWebsite()
+    public void init()
     {
-
+        registerMotd();
+        loadConfigAndEnv();
+        connectDatabase();
+        loadMigrations();
+        loadContainer();
+        startWebServer();
     }
 }
