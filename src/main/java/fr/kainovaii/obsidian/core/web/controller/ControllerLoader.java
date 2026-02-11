@@ -35,7 +35,7 @@ public class ControllerLoader
     {
         before("/*", RoleChecker::checkAccess);
 
-        Reflections reflections = new Reflections("fr.kainovaii.spark.app.controllers");
+        Reflections reflections = new Reflections("fr.kainovaii.obsidian.app.controllers");
         Set<Class<?>> controllerClasses = reflections.getTypesAnnotatedWith(Controller.class);
 
         List<Object> controllers = controllerClasses.stream()

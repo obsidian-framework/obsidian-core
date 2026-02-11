@@ -22,13 +22,13 @@ public class Obsidian
     public void loadMigrations()
     {
         MigrationManager migrations = new MigrationManager(DB.getInstance(), logger);
-        migrations.discover("fr.kainovaii.spark.app.migrations");
+        migrations.discover("fr.kainovaii.obsidian.app.migrations");
         migrations.migrate();
     }
 
     public void loadContainer()
     {
-        ComponentScanner.scanPackage("fr.kainovaii.spark.app");
+        ComponentScanner.scanPackage("fr.kainovaii.obsidian.app");
         Container.printRegistered();
     }
 

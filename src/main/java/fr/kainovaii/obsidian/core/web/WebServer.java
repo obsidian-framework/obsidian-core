@@ -40,7 +40,7 @@ public class WebServer
             setGlobal("flashes", flashes);
 
             try {
-                Class<?> globalAdvice = Class.forName("fr.kainovaii.spark.app.controllers.GlobalAdviceController");
+                Class<?> globalAdvice = Class.forName("fr.kainovaii.obsidian.app.controllers.GlobalAdviceController");
                 Method applyGlobals = globalAdvice.getMethod("applyGlobals", spark.Request.class, spark.Response.class);
                 applyGlobals.invoke(null, req, res);
             } catch (ClassNotFoundException e) {} catch (Exception e) {

@@ -31,12 +31,12 @@ public class BaseController extends ApiResponse
 
     private static UserDetailsService autoDetectUserDetailsService() {
         try {
-            org.reflections.Reflections reflections = new org.reflections.Reflections("fr.kainovaii.spark.app");
+            org.reflections.Reflections reflections = new org.reflections.Reflections("fr.kainovaii.obsidian.app");
 
             java.util.Set<Class<?>> annotatedClasses = reflections.getTypesAnnotatedWith(UserDetailsServiceImpl.class);
 
             if (annotatedClasses.isEmpty()) {
-                throw new RuntimeException("No class annotated with @UserDetailsServiceImpl found in fr.kainovaii.spark.app");
+                throw new RuntimeException("No class annotated with @UserDetailsServiceImpl found in fr.kainovaii.obsidian.app");
             }
 
             Class<?> implClass = annotatedClasses.iterator().next();
