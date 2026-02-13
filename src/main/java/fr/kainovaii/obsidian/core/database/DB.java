@@ -145,7 +145,7 @@ public class DB
                 String url = "jdbc:sqlite:" + dbPath;
                 Base.open("org.sqlite.JDBC", url, "", "");
             } else if (pool != null) {
-                Base.open((DataSource) pool.getConnection());
+                Base.open(pool);
             }
         } catch (Exception e) {
             logger.severe("Échec connexion: " + e.getMessage());
