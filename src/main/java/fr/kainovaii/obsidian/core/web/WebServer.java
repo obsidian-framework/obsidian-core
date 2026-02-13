@@ -3,6 +3,7 @@ package fr.kainovaii.obsidian.core.web;
 import fr.kainovaii.obsidian.core.security.role.RoleChecker;
 import fr.kainovaii.obsidian.core.web.controller.ControllerLoader;
 import fr.kainovaii.obsidian.core.Obsidian;
+import fr.kainovaii.obsidian.core.web.websocket.WebSocketLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,12 @@ public class WebServer
         ipAddress("0.0.0.0");
         port(Obsidian.getWebPort());
         staticFiles.location("/");
+
+        logger.info("Loading WebSocket handlers...");
+        WebSocketLoader.registerWebSockets();
+
+        logger.info("Initializing Spark...");
+        init();
 
         exception(Exception.class, (e, req, res) -> {
             logger.error("Unhandled exception on {} {}", req.requestMethod(), req.pathInfo(), e);

@@ -15,8 +15,12 @@ public class WebSocketLoader
 
     public static void registerWebSockets()
     {
+        logger.info("Scanning for WebSocket handlers in package: fr.kainovaii.obsidian.app.websockets");
+
         Reflections reflections = new Reflections("fr.kainovaii.obsidian.app.websockets");
         Set<Class<?>> webSocketClasses = reflections.getTypesAnnotatedWith(WebSocket.class);
+
+        logger.info("Found {} WebSocket handler(s)", webSocketClasses.size());
 
         for (Class<?> wsClass : webSocketClasses) {
             registerWebSocket(wsClass);
@@ -32,6 +36,7 @@ public class WebSocketLoader
 
         webSocket(path, wsClass);
 
-        logger.debug("Registered WebSocket: {} -> {}", wsClass.getSimpleName(), path);
+        logger.info("✓ Registered WebSocket: {} -> {} (class: {})",
+                path, wsClass.getSimpleName(), wsClass.getName());
     }
 }

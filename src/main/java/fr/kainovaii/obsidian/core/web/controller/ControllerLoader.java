@@ -3,7 +3,6 @@ package fr.kainovaii.obsidian.core.web.controller;
 import fr.kainovaii.obsidian.core.security.role.RoleChecker;
 import fr.kainovaii.obsidian.core.web.route.RouteLoader;
 import fr.kainovaii.obsidian.core.web.sse.SseLoader;
-import fr.kainovaii.obsidian.core.web.websocket.WebSocketLoader;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,6 @@ public class ControllerLoader
         List<Object> controllers = discoverControllers();
         RouteLoader.registerRoutes(controllers);
         SseLoader.registerSseRoutes(controllers);
-        WebSocketLoader.registerWebSockets();
 
         logger.info("Loaded {} controllers", controllers.size());
     }

@@ -59,10 +59,10 @@ public class SseLoader
 
     private static void configureSseResponse(Response res)
     {
-        res.type("text/event-stream");
+        res.type("text/event-stream; charset=UTF-8");  // ← AJOUTER charset=UTF-8
         res.header("Cache-Control", "no-cache");
         res.header("Connection", "keep-alive");
-        res.header("X-Accel-Buffering", "no");
+        res.header("X-Accel-Buffering", "no"); // Disable nginx buffering
     }
 
     private static Object invokeMethod(Object controller, Method method, Request req, Response res)
@@ -70,6 +70,7 @@ public class SseLoader
     {
         method.setAccessible(true);
 
+        // Pour SSE, on ne passe que Request et Response
         Class<?>[] paramTypes = method.getParameterTypes();
         Object[] args = new Object[paramTypes.length];
 

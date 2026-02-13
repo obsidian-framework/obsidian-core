@@ -68,7 +68,6 @@ public class Obsidian
     public void loadContainer()
     {
         ComponentScanner.scanPackage("fr.kainovaii.obsidian.app");
-        Container.printRegistered();
     }
 
     public static EnvLoader loadConfigAndEnv()
