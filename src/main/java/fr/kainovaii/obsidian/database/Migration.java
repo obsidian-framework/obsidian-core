@@ -1,9 +1,10 @@
 package fr.kainovaii.obsidian.database;
 
 import org.javalite.activejdbc.Base;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Base class for database migrations.
@@ -79,7 +80,7 @@ public abstract class Migration
      */
     protected void dropColumn(String tableName, String columnName) {
         if (type.equals("sqlite")) {
-            logger.warning("SQLite does not support DROP COLUMN - migration skipped");
+            logger.warn("SQLite does not support DROP COLUMN - migration skipped");
             return;
         }
         Base.exec(String.format("ALTER TABLE %s DROP COLUMN %s", tableName, columnName));

@@ -4,12 +4,12 @@ import fr.kainovaii.obsidian.core.Obsidian;
 import org.javalite.activejdbc.Base;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * Migration manager for database schema versioning.
@@ -77,7 +77,7 @@ public class MigrationManager
                     migration.logger = this.logger;
                     discoveredMigrations.add(migration);
                 } catch (Exception e) {
-                    logger.warning("Unable to instantiate the migration: " + migrationClass.getName() + " - " + e.getMessage());
+                    logger.warn("Unable to instantiate the migration: " + migrationClass.getName() + " - " + e.getMessage());
                 }
             }
 
@@ -87,7 +87,7 @@ public class MigrationManager
             logger.info(discoveredMigrations.size() + " migration(s) discovered in " + basePackage);
 
         } catch (Exception e) {
-            logger.severe("Error discovering migrations: " + e.getMessage());
+            logger.error("Error discovering migrations: " + e.getMessage());
         }
 
         return this;
@@ -110,7 +110,7 @@ public class MigrationManager
                     recordMigration(migrationName);
                     logger.info("✓ Migration completed: " + migrationName);
                 } else {
-                    logger.fine("Migration already executed: " + migrationName);
+                    logger.info("Migration already executed: " + migrationName);
                 }
             }
 

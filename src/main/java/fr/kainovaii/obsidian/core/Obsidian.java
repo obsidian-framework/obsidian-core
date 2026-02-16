@@ -1,6 +1,7 @@
 package fr.kainovaii.obsidian.core;
 
 import fr.kainovaii.obsidian.database.DB;
+import fr.kainovaii.obsidian.database.DatabaseLoader;
 import fr.kainovaii.obsidian.database.MigrationManager;
 import fr.kainovaii.obsidian.di.ComponentScanner;
 import fr.kainovaii.obsidian.di.Container;
@@ -9,8 +10,8 @@ import fr.kainovaii.obsidian.livecomponents.pebble.ComponentExtension;
 import fr.kainovaii.obsidian.livecomponents.scanner.LiveComponentScanner;
 import io.pebbletemplates.pebble.PebbleEngine;
 import io.pebbletemplates.pebble.loader.ClasspathLoader;
-
-import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Main class of the Obsidian framework.
@@ -19,8 +20,7 @@ import java.util.logging.Logger;
 public class Obsidian
 {
     /** Logger used by Spark */
-    public final static Logger logger = Logger.getLogger("Spark");
-
+    public final static Logger logger = LoggerFactory.getLogger(Obsidian.class);
     /** Base package for component scanning */
     private static String basePackage;
 
@@ -73,51 +73,7 @@ public class Obsidian
      * Initializes database connection.
      * Supports SQLite, MySQL and PostgreSQL based on configuration.
      */
-    public void connectDatabase()
-    {
-        System.out.println("Loading database");
-        EnvLoader env = loadConfigAndEnv();
-
-        String dbType = env.get("DB_TYPE");
-        if (dbType == null || dbType.isEmpty()) { dbType = "sqlite"; }
-
-        switch (dbType.toLowerCase())
-        {
-            case "sqlite":
-                String dbPath = env.get("DB_PATH");
-                if (dbPath == null || dbPath.isEmpty()) {
-                    dbPath = "Spark/data.db";
-                }
-                DB.initSQLite(dbPath, logger);
-                break;
-            case "mysql":
-                String mysqlHost = env.get("DB_HOST");
-                String mysqlPort = env.get("DB_PORT");
-                DB.initMySQL(
-                        mysqlHost != null ? mysqlHost : "localhost",
-                        Integer.parseInt(mysqlPort != null ? mysqlPort : "3306"),
-                        env.get("DB_NAME"),
-                        env.get("DB_USER"),
-                        env.get("DB_PASSWORD"),
-                        logger
-                );
-                break;
-            case "postgresql":
-                String pgHost = env.get("DB_HOST");
-                String pgPort = env.get("DB_PORT");
-                DB.initPostgreSQL(
-                        pgHost != null ? pgHost : "localhost",
-                        Integer.parseInt(pgPort != null ? pgPort : "5432"),
-                        env.get("DB_NAME"),
-                        env.get("DB_USER"),
-                        env.get("DB_PASSWORD"),
-                        logger
-                );
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported database type: " + dbType);
-        }
-    }
+    public void connectDatabase() { DatabaseLoader.loadDatabase(); }
 
     /**
      * Loads and executes database migrations.
@@ -171,7 +127,7 @@ public class Obsidian
 
             System.out.println("LiveComponents loaded successfully!");
         } catch (Exception e) {
-            logger.severe("Failed to load LiveComponents: " + e.getMessage());
+            logger.error("Failed to load LiveComponents: " + e.getMessage());
             e.printStackTrace();
         }
     }

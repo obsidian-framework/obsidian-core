@@ -3,9 +3,9 @@ package fr.kainovaii.obsidian.database;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.javalite.activejdbc.Base;
+import org.slf4j.Logger;
 
 import java.util.concurrent.Callable;
-import java.util.logging.Logger;
 
 /**
  * Database connection manager with support for SQLite, MySQL and PostgreSQL.
@@ -182,7 +182,7 @@ public class DB
             }
             return task.call();
         } catch (Exception e) {
-            logger.severe("Database error: " + e.getMessage());
+            logger.error("Database error: " + e.getMessage());
             throw new RuntimeException(e);
         } finally {
             if (created && Base.hasConnection()) {
@@ -215,7 +215,7 @@ public class DB
             if (Base.hasConnection()) {
                 Base.rollbackTransaction();
             }
-            logger.severe("Transaction failed: " + e.getMessage());
+            logger.error("Transaction failed: " + e.getMessage());
             throw new RuntimeException(e);
         } finally {
             if (created && Base.hasConnection()) {
@@ -261,7 +261,7 @@ public class DB
                 Base.open(pool);
             }
         } catch (Exception e) {
-            logger.severe("Connection failed: " + e.getMessage());
+            logger.error("Connection failed: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
