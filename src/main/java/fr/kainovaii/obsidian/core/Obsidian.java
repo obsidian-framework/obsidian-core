@@ -203,6 +203,7 @@ public class Obsidian
     public static Obsidian run(Class<?> mainClass, String[] args)
     {
         Obsidian app = new Obsidian(mainClass, args);
+        app.startCli();
         app.init();
         return app;
     }
